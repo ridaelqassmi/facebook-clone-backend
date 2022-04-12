@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,8 +22,19 @@ public class User {
 	@Lob
 	private byte[] profilePic;
 	
-	@OneToMany(mappedBy="Post_id")
+	@OneToMany(mappedBy="Post_id",fetch = FetchType.LAZY)
 	private List<Post> post;
+
+	@OneToMany(mappedBy="CommentId",fetch = FetchType.LAZY)
+	private List<Comment> comment;
+	
+	public List<Comment> getComment() {
+		return comment;
+	}
+
+	public void setComment(List<Comment> comment) {
+		this.comment = comment;
+	}
 
 	public long getId() {
 		return id;
@@ -80,16 +92,17 @@ public class User {
 		this.post = post;
 	}
 
-	public User(long id, String firstName, String lastName, String email, String phoneNumber, byte[] profilePic,
-			List<Post> post) {
+
+	public User(String firstName, String lastName, String email, String phoneNumber, byte[] profilePic, List<Post> post,
+			List<Comment> comment) {
 		super();
-		this.id = id;
 		this.firstName = firstName;
 		LastName = lastName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.profilePic = profilePic;
 		this.post = post;
+		this.comment = comment;
 	}
 
 	@Override

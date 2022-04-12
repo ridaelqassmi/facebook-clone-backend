@@ -1,5 +1,15 @@
 package com.facebook.facebookclone.repository;
 
-public interface CommentRepo {
+import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.facebook.facebookclone.modals.Comment;
+
+public interface CommentRepo extends JpaRepository<Comment,Long> {
+
+	@Query(value="SELECT * FROM comment WHERE id=?1 and post_id=?2",nativeQuery=true)
+	public List<Comment> getComment(long idUser,long idPost);
+	
 }
