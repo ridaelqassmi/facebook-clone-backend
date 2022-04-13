@@ -9,7 +9,7 @@ import com.facebook.facebookclone.modals.Comment;
 
 public interface CommentRepo extends JpaRepository<Comment,Long> {
 
-	@Query(value="SELECT * FROM comment WHERE id=?1 and post_id=?2",nativeQuery=true)
-	public List<Comment> getComment(long idUser,long idPost);
+	@Query(value="SELECT * FROM comment WHERE user_id=?1 and post_id=?2",nativeQuery=true)
+	List<Comment> getComment(long idUser,long idPost);
 	
 }

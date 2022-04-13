@@ -1,5 +1,7 @@
 package com.facebook.facebookclone.modals;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,28 +16,28 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
+
 public class Post {
 
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
-	private long Post_id;
+	private long id;
 	private int  nbLikes;
 	@Lob
 	private byte[] image;
 	private String postContent;
 	
 	@ManyToOne
-    @JoinColumn(name="id", nullable=false)
     private User user;
-	
-	@OneToMany(mappedBy="CommentId",fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="post",fetch = FetchType.EAGER)
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private List<Comment> comment;
 
 	public long getId() {
-		return Post_id;
+		return id;
 	}
 
 	public void setId(long id) {
-		this.Post_id = id;
+		this.id = id;
 	}
 
 	public int getNbLikes() {
@@ -66,12 +68,8 @@ public class Post {
 		return user;
 	}
 
-	public long getPost_id() {
-		return Post_id;
-	}
-
-	public void setPost_id(long post_id) {
-		Post_id = post_id;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public List<Comment> getComment() {
@@ -82,45 +80,28 @@ public class Post {
 		this.comment = comment;
 	}
 
-	public void setUser(User user2) {
-		this.user = user2;
-	}
+	public Post( int nbLikes, byte[] image, String postContent, User user, List<Comment> comment) {
 
-	public Post(long id, int nbLikes, byte[] image, String postContent, User user) {
-		super();
-		this.Post_id = id;
 		this.nbLikes = nbLikes;
 		this.image = image;
 		this.postContent = postContent;
 		this.user = user;
+		this.comment = comment;
 	}
-	
-
-	public Post(int nbLikes, String postContent, User user) {
-		super();
-		this.nbLikes = nbLikes;
-		this.postContent = postContent;
-		this.user = user;
-	}
-	
 
 	public Post() {
-		super();
+
 	}
 
 	@Override
 	public String toString() {
-		return "Post [Post_id=" + Post_id + ", nbLikes=" + nbLikes + ", image=" + Arrays.toString(image)
-				+ ", postContent=" + postContent + ", user=" + user + ", comment=" + comment + "]";
+		return "Post{" +
+				"id=" + id +
+				", nbLikes=" + nbLikes +
+				", image=" + Arrays.toString(image) +
+				", postContent='" + postContent + '\'' +
+				", user=" + user +
+				", comment=" + comment +
+				'}';
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

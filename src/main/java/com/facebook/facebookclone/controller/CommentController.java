@@ -2,6 +2,7 @@ package com.facebook.facebookclone.controller;
 
 import java.util.List;
 
+import com.facebook.facebookclone.modals.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -37,7 +38,8 @@ public class CommentController {
 		Comment comment1 = mapper.readValue(comment,Comment.class);
 		User user = userRepo.findById(idUser).get();
 		comment1.setUser(user);
-		comment1.setPost_id(idPost);
+		Post post = postRepo.findById(idPost).get();
+		comment1.setPost(post);
 		return commentRepo.save(comment1);
 	}
 	@GetMapping("/comment/{idUser}/{postId}")

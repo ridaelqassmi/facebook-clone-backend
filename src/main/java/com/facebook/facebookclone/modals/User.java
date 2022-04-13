@@ -1,5 +1,7 @@
 package com.facebook.facebookclone.modals;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,10 +24,12 @@ public class User {
 	@Lob
 	private byte[] profilePic;
 	
-	@OneToMany(mappedBy="Post_id",fetch = FetchType.LAZY)
+	@OneToMany(mappedBy="user")
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private List<Post> post;
 
-	@OneToMany(mappedBy="CommentId",fetch = FetchType.LAZY)
+	@OneToMany(mappedBy="user",fetch = FetchType.LAZY)
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private List<Comment> comment;
 	
 	public List<Comment> getComment() {
